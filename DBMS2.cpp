@@ -29,37 +29,26 @@ int main()
     string arr1[100000];
     string arr2[100000];
     string arr3[100000];
-    int cnt1=0, cnt2=0;
+    int cnt1=0, cnt2=0,cnt3=0;
 
 
 
     while(!f1.eof())
     {
-      getline(f1,l,',');
-      if(n%2==0)
+      f1>>l;
+
+      if(n%3==0)
         arr1[cnt1++]=l;
-      else
+      else if(n%3==1)
         arr2[cnt2++]=l;
+      else
+        arr3[cnt3++]=l;
 
       n++;
     }
 
-    for(int i=0;i<cnt1;i+=2)
-    {
-        cout<<arr1[i]<<" "<<endl;
-    }
+    no_fields=n/3;
 
-
-
-
-    for(int i=0;i<cnt2;i++)
-    {
-        cout<<arr2[i]<<" ";
-    }
-
-    cout<<endl;
-    no_fields=n/2;
-  //  cout<<no_fields;
     f1.close();
 
     ifstream f2;
@@ -109,7 +98,7 @@ int main()
 
     f3.close();
 
-/*
+
 
     int val;
 
@@ -119,7 +108,7 @@ int main()
         cout<<"Enter: \n1 to print file data\n2 to find sum of a given field entries\n0 to exit: ";
         cin>>val;
 
-        char *str;
+        char str[1024];
         if(val==1)
         {
              for(int i=0; i<n; i++)
@@ -137,45 +126,81 @@ int main()
         else if(val==2)
         {
             cout<<"Enter the field name whose sum over all records need to be calculated: ";
-            cin>>str;
-            if(strcmp("String",str)==0)
+            char sp[10];
+            gets(sp);
+            gets(str);
+            string temp;
+            int k=0;
+            int flag=0;
+            for(int i=0;i<cnt1;i++)
             {
-                cout<<"This field is not of numeric type\n";
-            }
-
-
-            else if(strcmp("Float",str)==0)
-            {
-                float sum=0.0;
-                int i;
-                for(i=0;i<no_records;i++)
+                const char *comp = arr1[i].c_str();
+                if(strcmp(str,comp)==0)
                 {
-                    sum+=data[i].getFloat();
-                }
-                cout<<"Sum is = "<<sum<<endl;
-            }
-
-            else if(strcmp("Int",str)==0)
-            {
-                int sum=0;
-                int i;
-                for(i=0;i<no_records;i++)
-                {
-                    sum+=data[i].getInt();
+                    k=i;
+                    temp=arr2[i];
+                    flag=1;
+                    break;
                 }
 
-                cout<<"Sum is = "<<sum<<endl;
+
             }
 
+            if(flag==0)
+                cout<<"No such field"<<endl;
             else
             {
-                cout<<"This field does not exist\n";
+                const char* comp2 = temp.c_str();
+                if(strcmp(comp2,"int")==0)
+                {
+                    int sum=0;
+                    for(int j=0;j<n;j++)
+                    {
+                        const char* addi = (datasaver[j][k]).c_str();
+                        sum+=atoi(addi);
+                    }
+
+                    cout<<"The sum is: "<<sum<<endl;
+                }
+
+                else if(strcmp(comp2,"float")==0)
+                {
+                    float sum=0;
+                    for(int j=0;j<n;j++)
+                    {
+                        const char* addi = (datasaver[j][k]).c_str();
+                        sum+=atof(addi);
+                    }
+
+                    cout<<"The sum is: "<<sum<<endl;
+
+
+                }
+
+                else if(strcmp(comp2,"double")==0)
+                {
+                    double sum=0;
+
+                    for(int j=0;j<n;j++)
+                    {
+                        const char* addi = (datasaver[j][k]).c_str();
+                        sum+=atof(addi);
+                    }
+
+                    cout<<"The sum is: "<<sum<<endl;
+                }
+
+                else
+                {
+                        cout<<"Not a numeric field";
+                }
             }
+
 
         }
 
     }while(val!=0);
-*/
+
 
 	return 0;
 }
