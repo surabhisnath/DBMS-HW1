@@ -1,9 +1,3 @@
-Field name=Int
-Field Data Type=int
-Field Size=4
-Field name=Float
-Field Data Type=float
-Field Size=4
-Field name=String
-Field Data Type=string
-Field Size=20
+Int int 1
+Float float 4
+String string 20 
